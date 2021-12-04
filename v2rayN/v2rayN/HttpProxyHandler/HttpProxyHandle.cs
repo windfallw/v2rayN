@@ -13,6 +13,7 @@ namespace v2rayN.HttpProxyHandler
         HttpOpenAndClear = 2,
         HttpOpenOnly = 3,
     }
+
     /// <summary>
     /// 系统代理(http)总处理
     /// 启动privoxy提供http协议
@@ -38,10 +39,12 @@ namespace v2rayN.HttpProxyHandler
                     {
                         return false;
                     }
+
                     if (type == ListenerType.GlobalHttp)
                     {
-                        //ProxySetting.SetProxy($"{Global.Loopback}:{port}", Global.IEProxyExceptions, 2);
-                        SysProxyHandle.SetIEProxy(true, true, $"{Global.httpProtocol}{Global.Loopback}:{port}");
+                        string strHttpProxy = $"{Global.httpProtocol}{Global.Loopback}:{port}";
+                        SysProxyHandle.SetIEProxy(true, $"http={strHttpProxy};https={strHttpProxy};ftp={strHttpProxy}",
+                            config.systemProxyExceptions);
                     }
                     else if (type == ListenerType.HttpOpenAndClear)
                     {
@@ -61,6 +64,7 @@ namespace v2rayN.HttpProxyHandler
             {
                 Utils.SaveLog(ex.Message, ex);
             }
+
             return true;
         }
 
@@ -139,11 +143,13 @@ namespace v2rayN.HttpProxyHandler
                     isRestart = true;
                 }
             }
+
             if (isRestart)
             {
                 CloseHttpAgent(config);
                 StartHttpAgent(config);
             }
+
             Update(config, false);
         }
 
@@ -164,9 +170,13 @@ namespace v2rayN.HttpProxyHandler
                 {
                     return false;
                 }
+
                 if (type == ESysProxyType.ForcedChange)
                 {
-                    SysProxyHandle.SetIEProxy(true, $"{Global.Loopback}:{port}", config.systemProxyExceptions);
+                    //SysProxyHandle.SetIEProxy(true, $"{Global.Loopback}:{port}", config.systemProxyExceptions);
+                    string strHttpProxy = $"{Global.httpProtocol}{Global.Loopback}:{port}";
+                    SysProxyHandle.SetIEProxy(true, $"http={strHttpProxy};https={strHttpProxy};ftp={strHttpProxy}",
+                        config.systemProxyExceptions);
                 }
                 else if (type == ESysProxyType.ForcedClear)
                 {
@@ -180,6 +190,7 @@ namespace v2rayN.HttpProxyHandler
             {
                 Utils.SaveLog(ex.Message, ex);
             }
+
             return true;
         }
 
