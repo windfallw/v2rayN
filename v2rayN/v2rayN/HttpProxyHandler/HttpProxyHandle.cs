@@ -173,10 +173,10 @@ namespace v2rayN.HttpProxyHandler
 
                 if (type == ESysProxyType.ForcedChange)
                 {
-                    //SysProxyHandle.SetIEProxy(true, $"{Global.Loopback}:{port}", config.systemProxyExceptions);
-                    string strHttpProxy = $"{Global.httpProtocol}{Global.Loopback}:{port}";
+                    var strExceptions = $"{config.constItem.defIEProxyExceptions};{config.systemProxyExceptions}";
+                    var strHttpProxy = $"{Global.httpProtocol}{Global.Loopback}:{port}";
                     SysProxyHandle.SetIEProxy(true, $"http={strHttpProxy};https={strHttpProxy};ftp={strHttpProxy}",
-                        config.systemProxyExceptions);
+                        strExceptions);
                 }
                 else if (type == ESysProxyType.ForcedClear)
                 {

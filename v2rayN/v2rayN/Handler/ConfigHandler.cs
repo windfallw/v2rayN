@@ -128,18 +128,22 @@ namespace v2rayN.Handler
                 config.uiItem.mainLvColWidth = new Dictionary<string, int>();
             }
 
-            //// 如果是用户升级，首次会有端口号为0的情况，不可用，这里处理
-            //if (config.pacPort == 0)
-            //{
-            //    config.pacPort = 8888;
-            //}
-            if (Utils.IsNullOrEmpty(config.speedTestUrl))
+
+            if (config.constItem == null)
             {
-                config.speedTestUrl = Global.SpeedTestUrl;
+                config.constItem = new ConstItem();
             }
-            if (Utils.IsNullOrEmpty(config.speedPingTestUrl))
+            if (Utils.IsNullOrEmpty(config.constItem.speedTestUrl))
             {
-                config.speedPingTestUrl = Global.SpeedPingTestUrl;
+                config.constItem.speedTestUrl = Global.SpeedTestUrl;
+            }
+            if (Utils.IsNullOrEmpty(config.constItem.speedPingTestUrl))
+            {
+                config.constItem.speedPingTestUrl = Global.SpeedPingTestUrl;
+            }
+            if (Utils.IsNullOrEmpty(config.constItem.defIEProxyExceptions))
+            {
+                config.constItem.defIEProxyExceptions = Global.IEProxyExceptions;
             }
             //if (Utils.IsNullOrEmpty(config.remoteDNS))
             //{
@@ -639,8 +643,10 @@ namespace v2rayN.Handler
 
             vmessItem.address = vmessItem.address.TrimEx();
             vmessItem.id = vmessItem.id.TrimEx();
-
-            vmessItem.streamSecurity = Global.StreamSecurity;
+            if (Utils.IsNullOrEmpty(vmessItem.streamSecurity))
+            {
+                vmessItem.streamSecurity = Global.StreamSecurity;
+            }
             if (Utils.IsNullOrEmpty(vmessItem.allowInsecure))
             {
                 vmessItem.allowInsecure = config.defAllowInsecure.ToString();
@@ -899,6 +905,7 @@ namespace v2rayN.Handler
             {
                 return -1;
             }
+            var propertyName = string.Empty;
             switch (name)
             {
                 case EServerColName.configType:
@@ -907,7 +914,12 @@ namespace v2rayN.Handler
                 case EServerColName.port:
                 case EServerColName.security:
                 case EServerColName.network:
+                case EServerColName.streamSecurity:
                 case EServerColName.testResult:
+                    propertyName = name.ToString();
+                    break;
+                case EServerColName.subRemarks:
+                    propertyName = "subid";
                     break;
                 default:
                     return -1;
@@ -917,11 +929,11 @@ namespace v2rayN.Handler
 
             if (asc)
             {
-                config.vmess = items.OrderBy(name.ToString()).ToList();
+                config.vmess = items.OrderBy(propertyName).ToList();
             }
             else
             {
-                config.vmess = items.OrderByDescending(name.ToString()).ToList();
+                config.vmess = items.OrderByDescending(propertyName).ToList();
             }
 
             var index_ = config.vmess.FindIndex(it => it.getItemId() == itemId);
@@ -1261,15 +1273,6 @@ namespace v2rayN.Handler
 
             if (config.routings.Count(it => it.locked != true) <= 0)
             {
-                //Global
-                var item1 = new RoutingItem()
-                {
-                    remarks = "全局(Global)",
-                    url = string.Empty,
-                };
-                AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "global"));
-                config.routings.Add(item1);
-
                 //Bypass the mainland
                 var item2 = new RoutingItem()
                 {
@@ -1287,6 +1290,15 @@ namespace v2rayN.Handler
                 };
                 AddBatchRoutingRules(ref item3, Utils.GetEmbedText(Global.CustomRoutingFileName + "black"));
                 config.routings.Add(item3);
+
+                //Global
+                var item1 = new RoutingItem()
+                {
+                    remarks = "全局(Global)",
+                    url = string.Empty,
+                };
+                AddBatchRoutingRules(ref item1, Utils.GetEmbedText(Global.CustomRoutingFileName + "global"));
+                config.routings.Add(item1);
 
                 config.routingIndex = 0;
             }

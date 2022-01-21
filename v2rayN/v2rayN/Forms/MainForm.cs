@@ -202,6 +202,7 @@ namespace v2rayN.Forms
             lvServers.Columns.Add(UIRes.I18N("LvPort"), 50);
             lvServers.Columns.Add(UIRes.I18N("LvEncryptionMethod"), 90);
             lvServers.Columns.Add(UIRes.I18N("LvTransportProtocol"), 70);
+            lvServers.Columns.Add(UIRes.I18N("LvTLS"), 70);
             lvServers.Columns.Add(UIRes.I18N("LvSubscription"), 50);
             lvServers.Columns.Add(UIRes.I18N("LvTestResults"), 70, HorizontalAlignment.Right);
 
@@ -258,6 +259,7 @@ namespace v2rayN.Forms
                 Utils.AddSubItem(lvItem, EServerColName.port.ToString(), item.port.ToString());
                 Utils.AddSubItem(lvItem, EServerColName.security.ToString(), item.security);
                 Utils.AddSubItem(lvItem, EServerColName.network.ToString(), item.network);
+                Utils.AddSubItem(lvItem, EServerColName.streamSecurity.ToString(), item.streamSecurity);
                 Utils.AddSubItem(lvItem, EServerColName.subRemarks.ToString(), item.getSubRemarks(config));
                 Utils.AddSubItem(lvItem, EServerColName.testResult.ToString(), item.testResult);
                 if (stats)
@@ -296,25 +298,56 @@ namespace v2rayN.Forms
         private void RefreshServersMenu()
         {
             menuServers.DropDownItems.Clear();
+            menuServers2.SelectedIndexChanged -= MenuServers2_SelectedIndexChanged;
+            menuServers2.Items.Clear();
+            menuServers.Visible = false;
+            menuServers2.Visible = false;
 
-            List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
-            for (int k = 0; k < config.vmess.Count; k++)
+            if (config.vmess.Count > 20)
             {
-                VmessItem item = config.vmess[k];
-                string name = item.getSummary();
+                for (int k = 0; k < config.vmess.Count; k++)
+                {
+                    VmessItem item = config.vmess[k];
+                    string name = item.getSummary();
 
-                ToolStripMenuItem ts = new ToolStripMenuItem(name)
-                {
-                    Tag = k
-                };
-                if (config.index.Equals(k))
-                {
-                    ts.Checked = true;
+                    if (config.index.Equals(k))
+                    {
+                        name = $"√ {name}";
+                    }
+                    menuServers2.Items.Add(name);
+
                 }
-                ts.Click += new EventHandler(ts_Click);
-                lst.Add(ts);
+                menuServers2.SelectedIndex = config.index;
+                menuServers2.SelectedIndexChanged += MenuServers2_SelectedIndexChanged;
+                menuServers2.Visible = true;
             }
-            menuServers.DropDownItems.AddRange(lst.ToArray());
+            else
+            {
+                List<ToolStripMenuItem> lst = new List<ToolStripMenuItem>();
+                for (int k = 0; k < config.vmess.Count; k++)
+                {
+                    VmessItem item = config.vmess[k];
+                    string name = item.getSummary();
+
+                    ToolStripMenuItem ts = new ToolStripMenuItem(name)
+                    {
+                        Tag = k
+                    };
+                    if (config.index.Equals(k))
+                    {
+                        ts.Checked = true;
+                    }
+                    ts.Click += new EventHandler(ts_Click);
+                    lst.Add(ts);
+                }
+                menuServers.DropDownItems.AddRange(lst.ToArray());
+                menuServers.Visible = true;
+            }
+        }
+
+        private void MenuServers2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SetDefaultServer(((ToolStripComboBox)sender).SelectedIndex);
         }
 
         private void ts_Click(object sender, EventArgs e)

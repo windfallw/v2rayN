@@ -47,8 +47,8 @@ namespace v2rayN.Resx {
         }
         
         /// <summary>
-        ///   重写当前线程的 CurrentUICulture 属性
-        ///   重写当前线程的 CurrentUICulture 属性。
+        ///   重写当前线程的 CurrentUICulture 属性，对
+        ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -192,6 +192,15 @@ namespace v2rayN.Resx {
         internal static string FillCorrectAlterId {
             get {
                 return ResourceManager.GetString("FillCorrectAlterId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Please fill in the correct custom DNS 的本地化字符串。
+        /// </summary>
+        internal static string FillCorrectDNSText {
+            get {
+                return ResourceManager.GetString("FillCorrectDNSText", resourceCulture);
             }
         }
         
@@ -390,6 +399,15 @@ namespace v2rayN.Resx {
         internal static string LvTestResults {
             get {
                 return ResourceManager.GetString("LvTestResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 TLS 的本地化字符串。
+        /// </summary>
+        internal static string LvTLS {
+            get {
+                return ResourceManager.GetString("LvTLS", resourceCulture);
             }
         }
         
@@ -895,6 +913,114 @@ namespace v2rayN.Resx {
         internal static string TestMeOutput {
             get {
                 return ResourceManager.GetString("TestMeOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *tcp camouflage type 的本地化字符串。
+        /// </summary>
+        internal static string TransportHeaderTypeTip1 {
+            get {
+                return ResourceManager.GetString("TransportHeaderTypeTip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *kcp camouflage type 的本地化字符串。
+        /// </summary>
+        internal static string TransportHeaderTypeTip2 {
+            get {
+                return ResourceManager.GetString("TransportHeaderTypeTip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *QUIC camouflage type 的本地化字符串。
+        /// </summary>
+        internal static string TransportHeaderTypeTip3 {
+            get {
+                return ResourceManager.GetString("TransportHeaderTypeTip3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *grpc mode 的本地化字符串。
+        /// </summary>
+        internal static string TransportHeaderTypeTip4 {
+            get {
+                return ResourceManager.GetString("TransportHeaderTypeTip4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *ws path 的本地化字符串。
+        /// </summary>
+        internal static string TransportPathTip1 {
+            get {
+                return ResourceManager.GetString("TransportPathTip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *h2 path 的本地化字符串。
+        /// </summary>
+        internal static string TransportPathTip2 {
+            get {
+                return ResourceManager.GetString("TransportPathTip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *QUIC key/Kcp seed 的本地化字符串。
+        /// </summary>
+        internal static string TransportPathTip3 {
+            get {
+                return ResourceManager.GetString("TransportPathTip3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *grpc serviceName 的本地化字符串。
+        /// </summary>
+        internal static string TransportPathTip4 {
+            get {
+                return ResourceManager.GetString("TransportPathTip4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *http host Separated by commas (,) 的本地化字符串。
+        /// </summary>
+        internal static string TransportRequestHostTip1 {
+            get {
+                return ResourceManager.GetString("TransportRequestHostTip1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *ws host 的本地化字符串。
+        /// </summary>
+        internal static string TransportRequestHostTip2 {
+            get {
+                return ResourceManager.GetString("TransportRequestHostTip2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *h2 host Separated by commas (,) 的本地化字符串。
+        /// </summary>
+        internal static string TransportRequestHostTip3 {
+            get {
+                return ResourceManager.GetString("TransportRequestHostTip3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 *QUIC securty 的本地化字符串。
+        /// </summary>
+        internal static string TransportRequestHostTip4 {
+            get {
+                return ResourceManager.GetString("TransportRequestHostTip4", resourceCulture);
             }
         }
     }
