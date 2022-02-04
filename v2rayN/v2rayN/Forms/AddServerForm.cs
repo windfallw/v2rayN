@@ -15,6 +15,7 @@ namespace v2rayN.Forms
 
         private void AddServerForm_Load(object sender, EventArgs e)
         {
+            cmbSecurity.Items.AddRange(Global.vmessSecuritys.ToArray());
             if (EditIndex >= 0)
             {
                 vmessItem = config.vmess[EditIndex];
@@ -80,11 +81,6 @@ namespace v2rayN.Forms
             if (Utils.IsNullOrEmpty(id))
             {
                 UI.Show(UIRes.I18N("FillUUID"));
-                return;
-            }
-            if (Utils.IsNullOrEmpty(alterId) || !Utils.IsNumberic(alterId))
-            {
-                UI.Show(UIRes.I18N("FillCorrectAlterId"));
                 return;
             }
 

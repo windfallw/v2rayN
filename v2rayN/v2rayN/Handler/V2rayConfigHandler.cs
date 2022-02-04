@@ -365,7 +365,14 @@ namespace v2rayN.Handler
                     usersItem.id = config.id();
                     usersItem.alterId = config.alterId();
                     usersItem.email = Global.userEMail;
-                    usersItem.security = config.security();
+                    if (Global.vmessSecuritys.Contains(config.security()))
+                    {
+                        usersItem.security = config.security();
+                    }
+                    else
+                    {
+                        usersItem.security = Global.DefaultSecurity;
+                    }
 
                     //Mux
                     outbound.mux.enabled = config.muxEnabled;
@@ -479,7 +486,6 @@ namespace v2rayN.Handler
                     }
                     //远程服务器用户ID
                     usersItem.id = config.id();
-                    usersItem.alterId = 0;
                     usersItem.flow = string.Empty;
                     usersItem.email = Global.userEMail;
                     usersItem.encryption = config.security();
@@ -497,7 +503,7 @@ namespace v2rayN.Handler
                     {
                         if (Utils.IsNullOrEmpty(config.flow()))
                         {
-                            usersItem.flow = "xtls-rprx-origin";
+                            usersItem.flow = Global.xtlsFlows[1];
                         }
                         else
                         {
@@ -537,7 +543,7 @@ namespace v2rayN.Handler
                     {
                         if (Utils.IsNullOrEmpty(config.flow()))
                         {
-                            serversItem.flow = "xtls-rprx-origin";
+                            serversItem.flow = Global.xtlsFlows[1];
                         }
                         else
                         {
@@ -1031,7 +1037,6 @@ namespace v2rayN.Handler
                 else if (config.configType() == (int)EConfigType.VLESS)
                 {
                     inbound.protocol = Global.vlessProtocolLite;
-                    usersItem.alterId = 0;
                     usersItem.flow = config.flow();
                     inbound.settings.decryption = config.security();
                 }
@@ -1389,7 +1394,7 @@ namespace v2rayN.Handler
         #region Gen speedtest config
 
 
-        public static string GenerateClientSpeedtestConfigString(Config config, List<int> selecteds, out string msg)
+        public static string GenerateClientSpeedtestConfigString(Config config, List<ServerTestItem> selecteds, out string msg)
         {
             try
             {
@@ -1435,21 +1440,26 @@ namespace v2rayN.Handler
 
                 int httpPort = configCopy.GetLocalPort("speedtest");
 
-                foreach (int index in selecteds)
+                foreach (var it in selecteds)
                 {
-                    if (configCopy.vmess[index].configType == (int)EConfigType.Custom)
+                    if (it.configType == (int)EConfigType.Custom)
+                    {
+                        continue;
+                    }
+                    if (it.port <= 0)
                     {
                         continue;
                     }
 
-                    configCopy.index = index;
-                    var port = httpPort + index;
+                    configCopy.index = it.selected;
+                    var port = httpPort + it.selected;
 
                     //Port In Used
                     if (lstIpEndPoints != null && lstIpEndPoints.FindIndex(_it => _it.Port == port) >= 0)
                     {
                         continue;
                     }
+                    it.port = port;
 
                     Inbounds inbound = new Inbounds
                     {
