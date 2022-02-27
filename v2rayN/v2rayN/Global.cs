@@ -175,10 +175,7 @@ namespace v2rayN
         /// Language
         /// </summary>
         public const string MyRegKeyLanguage = "CurrentLanguage";
-        /// <summary>
-        /// 
-        /// </summary>
-        public const string MyRegKeySecurityProtocolTls13 = "SecurityProtocolTls13";
+       
         /// <summary>
         /// Icon
         /// </summary>
@@ -199,10 +196,12 @@ namespace v2rayN
         public static readonly List<string> vmessSecuritys = new List<string> { "aes-128-gcm", "chacha20-poly1305", "auto", "none", "zero" };
         public static readonly List<string> ssSecuritys = new List<string> { "aes-256-gcm", "aes-128-gcm", "chacha20-poly1305", "chacha20-ietf-poly1305", "none", "plain" };
         public static readonly List<string> xtlsFlows = new List<string> { "", "xtls-rprx-origin", "xtls-rprx-origin-udp443", "xtls-rprx-direct", "xtls-rprx-direct-udp443" };
+        public static readonly List<string> networks = new List<string> { "tcp", "kcp", "ws", "h2", "quic", "grpc" };
+        public static readonly List<string> kcpHeaderTypes = new List<string> { "srtp", "utp", "wechat-video", "dtls", "wireguard" };
 
         public const string GrpcgunMode = "gun";
         public const string GrpcmultiMode = "multi";
-        
+
         #endregion
 
         #region 全局变量

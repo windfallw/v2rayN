@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Forms;
-using v2rayN.Handler;
 using v2rayN.Base;
-using v2rayN.HttpProxyHandler;
+using v2rayN.Handler;
 using v2rayN.Mode;
 
 namespace v2rayN.Forms
@@ -124,6 +123,8 @@ namespace v2rayN.Forms
             chkIgnoreGeoUpdateCore.Checked = config.ignoreGeoUpdateCore;
             cmbCoreType.SelectedIndex = (int)config.coreType;
             txtautoUpdateInterval.Text = config.autoUpdateInterval.ToString();
+            chkEnableAutoAdjustMainLvColWidth.Checked = config.uiItem.enableAutoAdjustMainLvColWidth;
+            chkEnableSecurityProtocolTls13.Checked = config.enableSecurityProtocolTls13;
         }
         private void btnOK_Click(object sender, EventArgs e)
         {
@@ -307,6 +308,8 @@ namespace v2rayN.Forms
             config.ignoreGeoUpdateCore = chkIgnoreGeoUpdateCore.Checked;
             config.coreType = (ECoreType)cmbCoreType.SelectedIndex;
             config.autoUpdateInterval = Utils.ToInt(txtautoUpdateInterval.Text);
+            config.uiItem.enableAutoAdjustMainLvColWidth = chkEnableAutoAdjustMainLvColWidth.Checked;
+            config.enableSecurityProtocolTls13 = chkEnableSecurityProtocolTls13.Checked;
 
             return 0;
         }
@@ -330,7 +333,12 @@ namespace v2rayN.Forms
 
         private void linkDnsObjectDoc_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.v2fly.org/config/dns.html#dnsobject");
+            Process.Start("https://www.v2fly.org/config/dns.html#dnsobject");
+        }
+
+        private void btnSetLoopback_Click(object sender, EventArgs e)
+        {
+            Process.Start(Utils.GetPath("EnableLoopback.exe"));
         }
     }
 }
